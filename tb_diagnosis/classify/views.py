@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render,redirect
 import os
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
@@ -19,12 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 model_path = os.path.join(BASE_DIR, 'models/tb_diagnosis_model.h5')
 
 model = load_model(model_path)
-
-
-def home(request):
-    text = "Home Page"
-    context = {'text': text}
-    return render(request, 'main/home.html', context)
 
 
 def label_remarks(prediction):
@@ -69,14 +63,15 @@ def predict(model, image):
     if confidence >= 20:
         confidence_remarks = "Confidence: {} %".format(confidence)
     elif confidence < 20:
-        confidence_remarks = "Confidence: {}%, Not confident about the image".format(confidence)
+        confidence_remarks = "Confidence: {}%, Not confident about the image".format(
+            confidence)
         label = " "
         remarks = " "
 
     return label, remarks, confidence_remarks
 
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def predictImage(request):
     image_width = 512
     image_height = 512
@@ -96,9 +91,87 @@ def predictImage(request):
                'label': label, 'remarks': remarks, 'confidence': confidence}
     return render(request, "main/index.html", context)
 
-
-#@login_required(login_url='login')
+def home(request):
+    return render(request,'main/home.html')
+        
+@login_required(login_url='signin')
 def index(request):
     heading = "X-ray TB diagonosis"
     context = {'route': heading}
     return render(request, 'main/index.html', context)
+
+def validateEmail(email):
+    from django.core import validators
+    from django.core.exceptions import ValidationError
+    try:
+        validators.validate_email(email)
+        return True
+    except ValidationError:
+        return False
+
+def Sign_In(request):
+    from django.contrib.auth import authenticate, login
+    if request.method=="GET":
+        return render(request,'main/login.html')
+    if request.method=="POST":
+        email=request.POST['email']
+        password = request.POST.get('password', None)
+        user=User.objects.filter(email=email)
+        if user.exists():
+            person=authenticate(username=user[0].username,password=password)
+            login(request,person)
+        else:
+            messages.error(request, message="Person not found, please retry")
+            return redirect('signin')
+        return redirect('index')
+
+
+def Sign_Up(request):
+
+    from django.contrib.auth import authenticate, login
+
+    if request.method == "GET":
+        return render(request, 'main/signup.html')
+
+    if request.method == "POST":
+        from django.contrib import messages
+
+        firstname=request.POST['firstname']
+        lastname=request.POST['lastname']
+        email=request.POST['email']
+        preuser=User.objects.filter(email=email)
+        if preuser.exists():
+            messages.error(request,message="Email Already Taken")
+            return redirect('signup')
+        if not validateEmail(email):
+            messages.error(request, message="Enter a valid email")
+            return redirect('signup')
+        password = request.POST['password']
+        age = request.POST['age']
+        address = request.POST['address']
+        bloodgroup = request.POST['bloodgroup']
+        is_doctor = request.POST['customRadio']
+        doctor = False
+        if int(is_doctor) == 1:
+            doctor = True
+        phoneno = request.POST['phoneno']
+        if not phoneno.isdigit():
+            messages.error(request, message="Please Use Only Numbers.")
+            return redirect('signup')
+
+        username=firstname+phoneno
+        user=User.objects.create_user(username=username.lower(),first_name=firstname,last_name=lastname,email=email,password=password)
+        user.save(False)
+        person=Person.objects.create(user=user,blood_group=bloodgroup,phoneno=phoneno,address=address,age=age,is_doctor=doctor)
+        person.save(True)
+        return redirect('index')
+
+@login_required(login_url='signin')
+def logout(request):
+    from django.contrib.auth import logout
+    if request.user.is_authenticated:
+        messages.info(request,"Logged Out Successfully")
+        logout(request)
+    return redirect('signin')
+
+

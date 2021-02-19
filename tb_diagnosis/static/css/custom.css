@@ -1,0 +1,86 @@
+/* for error messages */
+.messages{
+    width:50%;
+    background-color: aqua;
+    text-align: center;
+    height:30px;
+    list-style:none;
+}
+
+
+/* navbar */
+.nav-link{
+    padding:0 10px;
+    color: white !important;
+    font-size:1.4rem;
+}
+
+.nav-link:hover{
+    background-color: blue;
+}
+
+
+/* index.html */
+.form_and_description_container, .tabular_data{
+    width:80%;
+    margin:0 auto;
+}
+.image_container,#tuberculosis_table_data{
+    width:inherit;
+    margin:0 auto;
+    padding-left: 200px;
+}
+
+
+.table_container{
+   width:80%;
+   height:250px;
+   overflow-y: scroll;
+   overflow-x: scroll;
+   margin:0 auto;
+}
+.table_container .table{
+    position: relative;
+}
+.table thead{
+   position: sticky;
+    top:0px;
+    background-color: rgb(17, 243, 168);
+}
+
+
+/* home.html */
+.details{
+    width: 40%;
+    background-color: rgb(102, 235, 102);
+    margin: 0 auto;
+    border-radius: 20px;
+    height: 70px;
+}
+.details a{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: None;
+}
+.details a p{
+    font-weight: 300;
+    background-color: wheat;
+    padding:8px 8px;
+    margin: 12px 12px;
+    border-radius: 40px;
+}
+.details:hover{
+    cursor: grab;
+    background-color: rgb(224, 119, 224);
+}
+
+
+@media screen and (max-width: 850px){
+    .table_container{
+        width:100%;
+    }
+    .details{
+        width:95%;
+    }
+}

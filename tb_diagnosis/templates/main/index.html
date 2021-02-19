@@ -1,18 +1,22 @@
-{% block content%}
+{% load static %}
+{% include 'partials/__navbar.html' %}
 
-<h2>Upload X-ray image for TB diagnosis</h2>
 
-
-<br>
-
-<form method="post" enctype="multipart/form-data" action="predictImage">
-    {% csrf_token %}
+<!-- <form method="post" enctype="multipart/form-data" action="predictImage">
+    <input type="hidden" name="csrfmiddlewaretoken" value="LEvwViajxUtbSn9do1Fjrq40GyLD6tfObfMYc2aW1PmmPv53BgmkFofIMVC5tZJY">
     <input name="filePath" type="file">
-    <input type="submit" value="Submit">
-    {{filePathName}}
-    <br>
-    <img src={{filePathName}} alt={{label}} width="400" height="400">
-    <h2> {{label}} </h2>
+    <input type="submit" value="Submit">   
+</form> -->
+
+<div class="form_and_description_container">
+    <h2 style="background:linear-gradient(to right,rgba(123,21,21,0.1),rgba(122,22,45,0.9));color:crimson">Upload X-ray image for TB diagnosis</h2>
+    <form method="post" enctype="multipart/form-data" action="predictImage">
+        {% csrf_token %}
+        <div class="input-group">
+            <input name="filePath" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Submit</button>
+        </div>
+    </form>
     <br>
     <h2>{{remarks}}</h2>   
     <br>
@@ -20,4 +24,4 @@
 </form>
 <br>
 
-{% endblock %}
+{% include 'partials/__footer.html' %}

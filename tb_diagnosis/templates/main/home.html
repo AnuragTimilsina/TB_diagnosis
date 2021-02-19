@@ -1,5 +1,25 @@
-{% block content %}
+{% load static %}
+{% include 'partials/__navbar.html' %}
 
-<h1>{{text}}</h1>
+<br>
+<div class="details">
+    <a href="{% url 'index' %}"><p>Tuberculosis</p>
+    <p>Diaganose Now</p></a>
+</div>
+<br>
+<div class="details">
+    <a href=""><p>Cancer</p>
+    <p>Coming Soon</p></a>
+</div>
+<br>
+<div class="details">
+    <a href=""><p>Disc Herniation</p>
+    <p>Coming Soon</p></a>
+</div>
+<br>
+<div class="details">
+    <a href=""><p>Tumor</p>
+    <p>Coming Soon</p></a>
+</div>
 
-{% endblock %}
+{% include 'partials/__footer.html' %}
