@@ -1,0 +1,21 @@
+{% block content%}
+
+<h2>Upload X-ray image for TB diagnosis</h2>
+
+
+<br>
+
+<form method="post" enctype="multipart/form-data" action="predictImage">
+    {% csrf_token %}
+    <input name="filePath" type="file">
+    <input type="submit" value="Submit">
+    {{filePathName}}
+    <br>
+    <img src={{filePathName}} alt={{label}} width="400" height="400">
+    <h2> {{label}} </h2>
+    <br>
+    <h2>{{remarks}}</h2>    
+</form>
+<br>
+
+{% endblock %}

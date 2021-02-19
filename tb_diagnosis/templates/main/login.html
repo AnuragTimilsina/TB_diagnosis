@@ -1,0 +1,91 @@
+<!-- <!doctype html>
+<html lang="en">
+  <head> -->
+    <!-- Required meta tags -->
+    <!-- <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+
+    <!-- <title>Hello, world!</title>
+  </head> -->
+{% load static %}
+{% include 'partials/__navbar.html' %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <body>
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    {% endif %}
+    <nav>
+        <div class="container">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-doctors" data-toggle="tab" href="#nav-doctors-login" role="tab">Login Doctors</a>
+          <a class="nav-item nav-link" id="nav-patients" data-toggle="tab" href="#nav-patients-login" role="tab">Login Patients</a>
+        </div>
+      </nav>
+
+      <div class="container">
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-doctors-login" role="tabpanel" aria-labelledby="nav-home-tab">
+            <!-- doctors login tab -->
+<form action="{% url 'signin' %}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="text-center">
+     <button type="submit" class="btn btn-primary pl-4 pr-4">Submit</button>
+  </div>
+  <div class="form-footer">
+      <a href="#">Forgot Password</a>
+  </div>
+</form>
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-patients-login" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <!-- patients login tab -->
+<form action="{% url 'signin' %}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputEmail1">Patient Email address</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" password="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="text-center">
+     <button type="submit" class="btn btn-primary pl-4 pr-4">Submit</button>
+  </div>
+  <div class="form-footer">
+      <a href="#">Forgot Password</a>
+  </div>
+</form>
+        
+      </div>
+</div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!-- recently commented -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <!-- </body>
+</html> -->
+
+{% include 'partials/__footer.html' %}
