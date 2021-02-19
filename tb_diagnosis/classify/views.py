@@ -50,12 +50,30 @@ def turn_predictions_to_labels(prediction):
     return label
 
 
+def calculate_confidence(prediction):
+    pre = np.argmax(prediction)
+    confidence = prediction[0][pre]
+    confidence = int(confidence)
+    return confidence
+
+
 def predict(model, image):
     prediction = model.predict(np.array([image]))
     max_prob_val = np.argmax(prediction)
     label = turn_predictions_to_labels(max_prob_val)
     remarks = label_remarks(prediction)
-    return label, remarks
+    confidence = calculate_confidence(prediction)
+
+    if confidence > 100:
+        confidence = 100
+    if confidence >= 20:
+        confidence_remarks = "Confidence: {} %".format(confidence)
+    elif confidence < 20:
+        confidence_remarks = "Confidence: {}%, Not confident about the image".format(confidence)
+        label = " "
+        remarks = " "
+
+    return label, remarks, confidence_remarks
 
 
 #@login_required(login_url='login')
@@ -72,10 +90,10 @@ def predictImage(request):
     original = load_img(testimage, target_size=(image_width, image_height))
     numpy_image = img_to_array(original)
 
-    label, remarks = predict(model, numpy_image)
+    label, remarks, confidence = predict(model, numpy_image)
 
     context = {'filePathName': filePathName,
-               'label': label, 'remarks': remarks}
+               'label': label, 'remarks': remarks, 'confidence': confidence}
     return render(request, "main/index.html", context)
 
 
