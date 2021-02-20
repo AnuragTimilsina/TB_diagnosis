@@ -75,7 +75,31 @@
 
         
     </section>
-</form>
 <br>
+<div class="table_container">
+    <h4 style="background:linear-gradient(to right,rgba(123,21,21,0.1),rgba(122,22,45,0.9));">Reports</h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">S.N</th>
+            <th scope="col">Date/Time</th>
+            <th scope="col">Remarks</th>
+            <th scope="col">Download</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if person_data %}
+            {% for index,data in person_data %}
+            <tr>
+                <th scope="row">{{index}}</th>
+                <td>{{ data.test_date }}</td>
+                <td>{% if data.remarks %}{{ data.remarks }}{% else %} Unidentified {% endif %}</td>
+                <td><a href="#"><img style="margin-left:20px;width:20px;height:30px" src="{% static 'images/main/download.ico' %}"></a></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+    </div>
 
 {% include 'partials/__footer.html' %}

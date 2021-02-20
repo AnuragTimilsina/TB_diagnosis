@@ -3,9 +3,13 @@
 *.jpg 
 *.jfif
 *.h5
+*.jpeg
 
 #vscode settings
 .vscode
+
+# directory
+media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

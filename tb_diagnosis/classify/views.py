@@ -22,6 +22,17 @@ model_path = os.path.join(BASE_DIR, 'models/tb_diagnosis_model.h5')
 model = load_model(model_path)
 
 
+def fetchrecentreports(user):
+    person=Person.objects.get(user=user)
+    person_records=person.record_set.filter()
+    if person_records.exists():
+        person_records=person_records.order_by('test_date')
+        data=[[index+1,data] for index,data in enumerate(person_records)]
+        return data
+    else:
+        return None
+        
+
 def label_remarks(prediction):
     max_prob_val = np.argsort(prediction)[-1][-1]
     remarks = ' '
@@ -87,13 +98,11 @@ def predictImage(request):
     numpy_image = img_to_array(original)
 
     label, remarks, confidence = predict(model, numpy_image)
-
+    person_data=fetchrecentreports(request.user)
     context = {'filePathName': filePathName,
-               'label': label, 'remarks': remarks, 'confidence': confidence}
+               'label': label, 'remarks': remarks, 'confidence': confidence,'person_data':person_data}
 
     img_path = filePathName.split('/')[2]
-    print(img_path)
-
     user=User.objects.get(username=request.user.username)
     person=Person.objects.get(user=user)
     records = Record(lungs_status=label, remarks=remarks,
@@ -108,7 +117,8 @@ def home(request):
 @login_required(login_url='signin')
 def index(request):
     heading = "X-ray TB diagonosis"
-    context = {'route': heading}
+    person_data=fetchrecentreports(request.user)
+    context = {'route': heading,'person_data':person_data}
     return render(request, 'main/index.html', context)
 
 def validateEmail(email):
@@ -121,6 +131,8 @@ def validateEmail(email):
         return False
 
 def Sign_In(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     from django.contrib.auth import authenticate, login
     if request.method=="GET":
         return render(request,'main/login.html')
@@ -176,6 +188,13 @@ def Sign_Up(request):
         person=Person.objects.create(user=user,blood_group=bloodgroup,phoneno=phoneno,address=address,age=age,is_doctor=doctor)
         person.save(True)
         return redirect('index')
+
+@login_required(login_url='signin')
+def Get_Report(request,id):
+    person=Person.objects.get(user=request.user)
+    record=Record.objects.get(id=id)
+    context_data={'person':person,'record':record}
+    return render(request,'main/report.html')
 
 @login_required(login_url='signin')
 def logout(request):
