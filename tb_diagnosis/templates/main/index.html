@@ -94,7 +94,7 @@
                 <th scope="row">{{index}}</th>
                 <td>{{ data.test_date }}</td>
                 <td>{% if data.remarks %}{{ data.remarks }}{% else %} Unidentified {% endif %}</td>
-                <td><a href="#"><img style="margin-left:20px;width:20px;height:30px" src="{% static 'images/main/download.ico' %}"></a></td>
+                <td><a href="{{ data.get_absolute_url }}"><img style="margin-left:20px;width:20px;height:30px" src="{% static 'images/main/download.ico' %}"></a></td>
             </tr>
             {% endfor %}
             {% endif %}

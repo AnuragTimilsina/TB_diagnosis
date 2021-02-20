@@ -8,7 +8,7 @@ urlpatterns = [
     path('signin',views.Sign_In,name='signin'),
     path('signup',views.Sign_Up,name='signup'),
     path('logout',views.logout,name='logout'),
-    url('predictImage', views.predictImage, name='predictImage'),
-    url('report/<int:id>/',views.Get_Report,name='report'),
+    path('predictImage', views.predictImage, name='predictImage'),
+    path('report/<int:id>/',views.Get_Report,name='report'),
     #url('viewDataBase', views.viewDataBase, name='viewDatabase'),
 ]

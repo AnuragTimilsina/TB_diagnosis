@@ -103,11 +103,10 @@ def predictImage(request):
                'label': label, 'remarks': remarks, 'confidence': confidence,'person_data':person_data}
 
     img_path = filePathName.split('/')[2]
-    user=User.objects.get(username=request.user.username)
-    person=Person.objects.get(user=user)
+    person=Person.objects.get(user=request.user)
     records = Record(lungs_status=label, remarks=remarks,
                      x_ray=img_path, person=person)
-    records.save()
+    records.save(True)
 
     return render(request, "main/index.html", context)
 
@@ -190,11 +189,11 @@ def Sign_Up(request):
         return redirect('index')
 
 @login_required(login_url='signin')
-def Get_Report(request,id):
+def Get_Report(request,id,*args,**kwargs):
     person=Person.objects.get(user=request.user)
     record=Record.objects.get(id=id)
     context_data={'person':person,'record':record}
-    return render(request,'main/report.html')
+    return render(request,'main/record.html',context_data)
 
 @login_required(login_url='signin')
 def logout(request):

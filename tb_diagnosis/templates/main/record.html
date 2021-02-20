@@ -1,0 +1,123 @@
+{% load static %}
+<style>
+    *{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    .record {
+        box-shadow:inset 0px 0px 0px 3px #b9b5b5;
+        margin: 0 auto;
+        width: 800px;
+        height: 955px;
+        position: relative;
+        border: 2px solid black;
+        background: linear-gradient(to right bottom,rgba(245, 239, 238, 0.1),rgba(241, 236, 231, 0.3));
+    }
+
+    .record>img:first-child{
+        margin: 0 auto;
+        z-index: -1;
+        width:48%;
+        position: absolute;
+        height: 45%;
+        opacity:0.4;
+        transform: translate(50%,50%);
+    }
+    .record>img:nth-child(2){
+        width:150px;
+        height:150px;
+        margin-left: 41%;
+    }
+    .records_and_details{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    .user_details{
+        width: 100%;
+        flex-direction: column;
+    }
+    img{
+        width:250px;
+        height:250px;
+        opacity:1;
+        margin-left:275px;
+        translate: transform(50%,50%);
+    }
+    .report_table{
+        margin: 0 auto;
+        width:600px;
+        height: inherit;
+    }
+    table{
+        border-spacing: 0px;
+    }
+    th,td{
+        height:40px;
+        border: 2px solid black;
+    }
+    th{
+        width:70px;
+    }
+    @media print{
+        button{
+            display: none;
+        }
+    }
+</style>
+<button type="button" onclick="window.print()">Print</button>
+<div class="record">
+    <img src="{% static 'images/logo/logovindra.JPG' %}" alt="logovindra">
+    <img src="{% static 'images/logo/vindra_logo-removebg-preview.png' %}" alt="vinidra_diagonosis_logo" class="src">
+    <h1 style="text-align:center">VINIDRA DIAGONOSIS</h1>
+    <hr color="black">
+    <br>
+    <div class="records_and_details">
+        <div class="userdetails">
+            <table class="report_table">
+                <thead>
+                    <tr> 
+                        <th width="100%" colspan="4">Report Table</th>
+                    </tr>        
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="report_table_col">Username: </th>
+                        <td colspan="3">{{ person.user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Email: </th>
+                        <td colspan="3">{{ person.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Address: </th>
+                        <td colspan="3">{{ person.address }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Phone No: </th>
+                        <td colspan="3">{{ person.phoneno }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Age: </th>
+                        <td>{{ person.age }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Blood Group: </th>
+                        <td>{{ person.blood_group }}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Remarks: </th><td colspan="3">{{record.remarks}}</td>
+                    </tr>
+                    <tr>
+                        <th class="report_table_col">Label: </th><td colspan="3">{{ record.lungs_status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <img src="/media/{{record.x_ray}}" alt="xray_image" name="xrar_image">
+            {{record.x_ray}}
+            <br>
+            <label style="margin-left:300px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" for="xrar_image">Xray of {{person.user.firstname}} Chest</label>
+        </div>
+        <h3>Note: This report is given to {{ person.user.username }} by Vinidra.</h3>
+    </div>
+</div>
