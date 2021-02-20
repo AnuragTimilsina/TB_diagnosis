@@ -14,9 +14,9 @@ Repo for KU Hackfest 2021\
 * We aim to keep this project opensource to further extend this platform.\
 
 # Files overview
-*tb_diagnosis/Diagnosis_model_code.ipynb: The actual model code. 
-*tb_diagnosis/Model_check.ipynb: Checking the deployed model. 
-*tb_diagnosis/install.py: Run this python file to install dependencies and download the Deep learning model in required path\
+* tb_diagnosis/Diagnosis_model_code.ipynb: The actual model code. 
+* tb_diagnosis/Model_check.ipynb: Checking the deployed model. 
+* tb_diagnosis/install.py: Run this python file to install dependencies and download the Deep learning model in required path\
 
 # Setup
 **Run the script tb_diagnosis/install.py to install dependencies and download the Deep learning model in required path**/
