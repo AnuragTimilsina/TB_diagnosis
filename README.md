@@ -4,18 +4,18 @@
 # The vison you deserve
 Repo for KU Hackfest 2021
 
-* This project aims to create a disease diagnosis system by analysing medical images.
-* This perticular prototype aims to diagnose Tuberculosis using X-ray images. 
-* We are using Tensorflow(Convolution neural networks) to predict Tuberculosis. 
-* We used TBX11K(http://mmcheng.net/tb/) dataset to train this model.
-* We classify the result into healthy, sick(potential TB), and Active Tuberculosis. 
-* We have deployed our model in Django and added some further functionalities. 
-* We aim to extend it further by adding other diagnosis techniques and support for another diseases.
-* We aim to keep this project opensource to further extend this platform.
+* This project aims to create a disease diagnosis system by analysing medical images
+* This perticular prototype aims to diagnose Tuberculosis using X-ray images
+* We are using Tensorflow(Convolution neural networks) to predict Tuberculosis
+* We used TBX11K(http://mmcheng.net/tb/) dataset to train this model
+* We classify the result into healthy, sick(potential TB), and Active Tuberculosis
+* We have deployed our model in Django and added some further functionalities
+* We aim to extend it further by adding other diagnosis techniques and support for other diseases
+* We aim to keep this project opensource to further extend this platform
 
 # Files overview
-* tb_diagnosis/Diagnosis_model_code.ipynb: The actual model code. 
-* tb_diagnosis/Model_check.ipynb: Checking the deployed model. 
+* tb_diagnosis/Diagnosis_model_code.ipynb: The actual model code
+* tb_diagnosis/Model_check.ipynb: Checking the deployed model
 * tb_diagnosis/install.py: Run this python file to install dependencies and download the Deep learning model in required path
 
 # Setup
