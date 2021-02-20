@@ -17,10 +17,16 @@
             <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Submit</button>
         </div>
     </form>
-    <br>
-    <h2>{{remarks}}</h2>   
-    <br>
-    <h2>{{confidence}}</h2> 
+    <section class="image_container">
+        <div class="img_holder">
+            <img src={{filePathName}} alt={{label}} width="400" height="400">
+        </div>
+        <div class="image_description">
+            <h2> {{label}} </h2>
+            <h2>{{remarks}}</h2>
+            <h2>{{confidence}}</h2>
+        </div>
+    </section>
 </form>
 <br>
 

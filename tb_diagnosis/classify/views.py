@@ -4,7 +4,8 @@ import os
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 
-from .models import *
+from .models import Person, Record
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
@@ -89,6 +90,16 @@ def predictImage(request):
 
     context = {'filePathName': filePathName,
                'label': label, 'remarks': remarks, 'confidence': confidence}
+
+    img_path = filePathName.split('/')[2]
+    print(img_path)
+
+    user=User.objects.get(username=request.user.username)
+    person=Person.objects.get(user=user)
+    records = Record(lungs_status=label, remarks=remarks,
+                     x_ray=img_path, person=person)
+    records.save()
+
     return render(request, "main/index.html", context)
 
 def home(request):
