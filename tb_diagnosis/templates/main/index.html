@@ -7,25 +7,73 @@
     <input name="filePath" type="file">
     <input type="submit" value="Submit">   
 </form> -->
+<script defer>
+  
+    window.addEventListener('load', (event) => {
+           annotate('{{label}}')
 
-<div class="form_and_description_container">
-    <h2 style="background:linear-gradient(to right,rgba(123,21,21,0.1),rgba(122,22,45,0.9));color:crimson">Upload X-ray image for TB diagnosis</h2>
+        });
+    var loadFile = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+         
+            var output = document.getElementById('output');
+            output.src = reader.result;
+           document.querySelector('.img').style.display = 'block';
+           document.querySelector('.img-uploaded').style.display = 'block';
+           document.querySelector('.annot-image').style.display = 'none';
+
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    const annotate = (label) => {
+            console.log(label);
+            const colors = {
+                'Sick': 'orange',
+                'Tuberculosis': 'red',
+                'Healthy': 'green'
+            }
+          
+            document.querySelector('.annot').style.backgroundColor = colors[label];
+        }
+    
+   
+
+</script>
+<div class="form_and_description_container mt-5">
+    <h2 class="mb-5" style="background:linear-gradient(to right,rgba(123,21,21,0.1),rgba(122,22,45,0.9));color:crimson;">Upload X-ray image for TB diagnosis</h2>
     <form method="post" enctype="multipart/form-data" action="predictImage">
         {% csrf_token %}
         <div class="input-group">
-            <input name="filePath" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <input name="filePath" type="file" onchange="loadFile(event)" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
             <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Submit</button>
         </div>
     </form>
     <section class="image_container">
         <div class="img_holder">
-            <img src={{filePathName}} alt={{label}} width="400" height="400">
-        </div>
-        <div class="image_description">
+            <div class ='mb-5 border border-primary'>
+                <center>
+                    <h1 class="img-uploaded" style="display:none">image you have uploaded</h1>
+                </center>
+                <img id="output" class="img" src={{filePathName}} alt={{label}} style="width:400px; height: 400px;display:none">
+            </div>
+            {%if filePathName%}
+            <div  class="annot-image"  style="position:relative">
+                <div class="annot" style="opacity:0.3;width:400px;height:400px;position:absolute"></div>
+                <img src={{filePathName}} alt={{label}} style="width:400px; height: 400px;">
+                
+           
+                
+            {%endif%}
+        <div class="image_description text-center">
             <h2> {{label}} </h2>
             <h2>{{remarks}}</h2>
             <h2>{{confidence}}</h2>
         </div>
+        </div>
+
+        
     </section>
 </form>
 <br>
