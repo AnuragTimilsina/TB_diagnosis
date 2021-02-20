@@ -1,7 +1,7 @@
 ![alt text](https://user-images.githubusercontent.com/33256063/108596120-155dc200-73ab-11eb-9331-81fa1b96fb50.png)
 
 # Vinidra Diagnosis
-# The eye you deserve
+# The vison you deserve
 Repo for KU Hackfest 2021
 
 * This project aims to create a disease diagnosis system by analysing medical images.
