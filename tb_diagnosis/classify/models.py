@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
-import datetime
-from django.urls import reverse
 
+from django.urls import reverse
+import datetime
 # Create your models here.
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,18 +24,16 @@ class Person(models.Model):
 
 
 class Record(models.Model):
-
-    def user_directory_path(self, filename):
-        # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-        return 'user_{0}/'.format(self.person.user.username)
-
+    # def file_path(self,*args,**kwargs):
+    #     return 'user_'+self.person.user.username+'/'
+    def time_date():
+        return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=5,minutes=45)))
     lungs_status = models.CharField(max_length=30)
     remarks = models.CharField(max_length=200)
-    test_date = models.DateTimeField(default=datetime.datetime.now)
-    x_ray = models.ImageField(
-        upload_to=user_directory_path)
+    test_date = models.DateTimeField(default=time_date)
+    x_ray = models.CharField(max_length=100)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-
+    confidence=models.CharField(max_length=20,null=True,blank=True)
     def get_absolute_url(self):
         return reverse('report',kwargs={'id':self.id,})
     def __str__(self):

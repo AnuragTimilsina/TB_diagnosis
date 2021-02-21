@@ -113,10 +113,9 @@
                 </tbody>
             </table>
             <br>
-            <img src="/media/{{record.x_ray}}" alt="xray_image" name="xrar_image">
-            {{record.x_ray}}
+            <img src="{{ record.x_ray }}" alt="xray_image" name="xrar_image">
             <br>
-            <label style="margin-left:300px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" for="xrar_image">Xray of {{person.user.firstname}} Chest</label>
+            <label style="margin-left:300px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" for="xrar_image">Xray of {{person.user.first_name}}'s Chest</label>
         </div>
         <h3>Note: This report is given to {{ person.user.username }} by Vinidra.</h3>
     </div>

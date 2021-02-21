@@ -4,17 +4,13 @@ import os
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 
-from .models import Person, Record
-from django.contrib.auth.models import User
+from .models import Person, Record, User
 from django.contrib.auth.decorators import login_required
 
 
-import tensorflow as tf
+
 from keras.models import load_model
-from keras.preprocessing import image
-from keras.preprocessing.image import img_to_array, load_img
 import numpy as np
-import json
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 model_path = os.path.join(BASE_DIR, 'models/tb_diagnosis_model.h5')
@@ -26,7 +22,7 @@ def fetchrecentreports(user):
     person=Person.objects.get(user=user)
     person_records=person.record_set.filter()
     if person_records.exists():
-        person_records=person_records.order_by('test_date')
+        person_records=person_records.order_by('-test_date')
         data=[[index+1,data] for index,data in enumerate(person_records)]
         return data
     else:
@@ -85,29 +81,43 @@ def predict(model, image):
 
 @login_required(login_url='login')
 def predictImage(request):
+    from keras.preprocessing.image import img_to_array, load_img
+    from django.core.cache import cache
+    from django.urls import reverse
     image_width = 512
     image_height = 512
 
     f = request.FILES['filePath']
-    fs = FileSystemStorage()
-    filePathName = fs.save(f.name, f)
-    filePathName = fs.url(filePathName)
-    testimage = '.'+filePathName
-
-    original = load_img(testimage, target_size=(image_width, image_height))
-    numpy_image = img_to_array(original)
-
-    label, remarks, confidence = predict(model, numpy_image)
-    person_data=fetchrecentreports(request.user)
-    context = {'filePathName': filePathName,
-               'label': label, 'remarks': remarks, 'confidence': confidence,'person_data':person_data}
-
-    img_path = filePathName.split('/')[2]
     person=Person.objects.get(user=request.user)
-    records = Record(lungs_status=label, remarks=remarks,
-                     x_ray=img_path, person=person)
-    records.save(True)
+    filepath='./media/'+person.user.username+'/'
+    files=filepath+f.name
+    if not person.record_set.filter(x_ray=files).exists():
+        fs = FileSystemStorage(location=filepath)
+        filePathName = fs.save(f.name, f)
+        testimage = './media/'+person.user.username+'/'+filePathName
 
+        original = load_img(testimage, target_size=(image_width, image_height))
+        numpy_image = img_to_array(original)
+
+        label, remarks, confidence = predict(model, numpy_image)
+        records = Record.objects.create(lungs_status=label, remarks=remarks,
+                     x_ray=testimage, person=person,confidence=confidence)
+    else:
+        import datetime
+        record=Record.objects.get(x_ray=files)
+        offset=datetime.timezone(datetime.timedelta(hours=5,minutes=45))
+        record.test_date=datetime.datetime.now(offset)
+        record.save()
+
+    person_data=fetchrecentreports(request.user)
+    filePathName=person_data[0][1].x_ray
+    label=person_data[0][1].lungs_status
+    remarks=person_data[0][1].remarks
+    confidence=person_data[0][1].confidence
+    context = {'filePathName': filePathName,
+               'label': label, 'remarks': remarks, 'confidence': confidence}
+    context['person_data']=person_data
+    cache.delete(reverse('predictImage'))
     return render(request, "main/index.html", context)
 
 def home(request):
@@ -137,7 +147,7 @@ def Sign_In(request):
         return render(request,'main/login.html')
     if request.method=="POST":
         email=request.POST['email']
-        password = request.POST.get('password', None)
+        password = request.POST['password']
         user=User.objects.filter(email=email)
         if user.exists():
             person=authenticate(username=user[0].username,password=password)
@@ -192,6 +202,7 @@ def Sign_Up(request):
 def Get_Report(request,id,*args,**kwargs):
     person=Person.objects.get(user=request.user)
     record=Record.objects.get(id=id)
+    record.x_ray=record.x_ray[1:]
     context_data={'person':person,'record':record}
     return render(request,'main/record.html',context_data)
 
