@@ -42,7 +42,7 @@ def label_remarks(prediction):
 
 
 def turn_predictions_to_labels(prediction):
-    predection = int(prediction)
+    prediction = int(prediction)
     if prediction == 0:
         label = "Tuberculosis"
     elif prediction == 1:
