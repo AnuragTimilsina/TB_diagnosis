@@ -12,6 +12,7 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 #importing all regular views helper functions
 from classify.views import label_remarks, turn_predictions_to_labels, calculate_confidence, predict
@@ -48,6 +49,8 @@ def predictImage(testimage, filePathName):
 
 class Image(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, *args, **kwargs):
         testimage, filePathName = upload_image(request=request)
         label, remarks, confidence = predictImage(testimage, filePathName)
@@ -61,11 +64,11 @@ class Image(APIView):
 
 # All about authentication and authorization: 
 
-from .serializers import MyTokenObtainPairSerializer
+from .serializers import MyTokenObtainPairSerializer, RegisterSerializer, \
+                         changePasswordSerializer, UpdateUserSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
-from .serializers import RegisterSerializer
 from rest_framework import generics
 
 
@@ -80,6 +83,15 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 
+class changePasswordView(generics.UpdateAPIView):
+
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = changePasswordSerializer
 
 
+class UpdateProfileView(generics.UpdateAPIView):
 
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
