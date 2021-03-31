@@ -1,8 +1,9 @@
 from django.conf.urls import url
 from django.urls import path
 from .views import MyTokenObtainPairView, RegisterView, Image, \
-                 changePasswordView, UpdateProfileView
-from rest_framework_simplejwt.views import TokenRefreshView
+                 changePasswordView, UpdateProfileView, logoutView, logoutAllView
+from rest_framework_simplejwt.views import TokenRefreshView, \
+                                            TokenObtainPairView
 
 urlpatterns = [
     url(r'^image/$', Image.as_view(), name='upload-image'),
@@ -11,5 +12,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('change_password/<int:pk>/', changePasswordView.as_view(), name='auth_change_password'),
     path('update_profile/<int:pk>/', UpdateProfileView.as_view(), name='auth_update_profile'),
+    path('logout/', logoutView.as_view(), name='auth_logout'),
+    path('logout_all/', logoutAllView.as_view(), name='auth_logout_all'),
 ]
 
