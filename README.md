@@ -2,7 +2,7 @@
 
 # Vinidra Diagnosis
 # The vision you deserve
-Repo for KU Hackfest 2021
+This is a platform to diagnose TB using CNN model.  
 
 * This project aims to create a disease diagnosis system by analysing medical images
 * This perticular prototype aims to diagnose Tuberculosis using X-ray images
