@@ -67,7 +67,7 @@ class changePasswordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('oldpassword', 'password', 'password2')
+        fields = ('old_password', 'password', 'password2')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:

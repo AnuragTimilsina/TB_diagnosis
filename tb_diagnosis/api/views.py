@@ -15,7 +15,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 #importing all regular views helper functions
-from classify.views import label_remarks, turn_predictions_to_labels, calculate_confidence, predict
+from classify.views import label_remarks, turn_predictions_to_labels,\
+                             calculate_confidence, predict
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 model_path = os.path.join(BASE_DIR, 'models/tb_diagnosis_model.h5')
@@ -49,7 +50,7 @@ def predictImage(testimage, filePathName):
 
 class Image(APIView):
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         testimage, filePathName = upload_image(request=request)
