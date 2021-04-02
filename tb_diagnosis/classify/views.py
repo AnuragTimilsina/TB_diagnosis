@@ -23,7 +23,7 @@ def fetchrecentreports(user):
     person_records=person.record_set.filter()
     if person_records.exists():
         person_records=person_records.order_by('-test_date')
-        data={index+1:data for index,data in enumerate(person_records)}
+        data = [[index+1, data] for index, data in enumerate(person_records)]
         return data
     else:
         return None
