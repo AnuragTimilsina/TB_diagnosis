@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from .models import Record
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -135,3 +136,14 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             instance.save()
 
             return instance
+
+
+# Report serializer
+class reportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Record
+        fields = '__all__'
+
+    
+        

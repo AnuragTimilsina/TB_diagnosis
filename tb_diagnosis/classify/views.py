@@ -23,7 +23,7 @@ def fetchrecentreports(user):
     person_records=person.record_set.filter()
     if person_records.exists():
         person_records=person_records.order_by('-test_date')
-        data=[[index+1,data] for index,data in enumerate(person_records)]
+        data={index+1:data for index,data in enumerate(person_records)}
         return data
     else:
         return None
@@ -204,13 +204,13 @@ def Get_Report(request,id,*args,**kwargs):
     record=Record.objects.get(id=id)
     record.x_ray=record.x_ray[1:]
     context_data={'person':person,'record':record}
-    return render(request,'main/record.html',context_data)
+    return render(request, 'main/record.html',context_data)
 
 @login_required(login_url='signin')
 def logout(request):
     from django.contrib.auth import logout
     if request.user.is_authenticated:
-        messages.info(request,"Logged Out Successfully")
+        messages.info(request, "Logged Out Successfully")
         logout(request)
     return redirect('signin')
 

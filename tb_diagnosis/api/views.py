@@ -10,9 +10,10 @@ from django.conf import settings
 
 #DRF components:
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 #importing all regular views helper functions
 from classify.views import label_remarks, turn_predictions_to_labels,\
@@ -124,3 +125,31 @@ class logoutAllView(APIView):
             t, _ = BlacklistedToken.objects.get_or_create(token=token)
 
         return Response(status=status.HTTP_205_RESET_CONTENT)
+
+
+# All about report
+from .serializers import reportSerializer
+
+@api_view(['GET', 'POST'])
+def report_list(request):
+
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    if request.method == 'GET':
+        record = Record.objects.all()
+        serializer = reportSerializer(record, many=True)
+        return Response(serializer.data) 
+
+    elif request.method == 'POST':
+        serializer = reportSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, 
+                        status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+                        
