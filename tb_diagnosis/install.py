@@ -1,4 +1,3 @@
-import gdown
 import subprocess
 import sys
 import os
@@ -12,6 +11,7 @@ with open("requirements.txt") as requirements:
     requirements = requirements.readlines()[0]
     install(requirements)
 
+import gdown
 
 print("Downloading model:")
 url = 'https://drive.google.com/uc?id=1oBflqba21kBBhalH5sGO8ScPzmsxWu_G'
