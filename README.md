@@ -24,4 +24,5 @@ This is a platform to diagnose TB using CNN model.
 foo@bar:~$ cd ./tb_diagnosis
 foo@bar:~$ python3 install.py
 ```
-
+# This is our model in action
+https://www.youtube.com/watch?v=_l-XogdJYJ0&t=5s&ab_channel=AnuragTimilsina
