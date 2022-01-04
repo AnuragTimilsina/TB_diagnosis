@@ -68,9 +68,9 @@ def predict(model, image):
 
     if confidence > 100:
         confidence = 100
-    if confidence >= 20:
+    if confidence >= 50:
         confidence_remarks = "Confidence: {} %".format(confidence)
-    elif confidence < 20:
+    elif confidence < 50:
         confidence_remarks = "Confidence: {}%, Not confident about the image".format(
             confidence)
         label = " "
